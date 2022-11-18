@@ -19,7 +19,7 @@ namespace ProjOfMec_API.Models
         public string senha { get; set; } = string.Empty;
 
       
-        [Required(ErrorMessage = "Perfis aceitos: Cliente e Mecanico")]
+        [Required(ErrorMessage = "Perfis aceitos: cliente e mecanico")]
         public string role { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "IsMecanico é obrigatório! Você é um mecanico?(false ou true)")]

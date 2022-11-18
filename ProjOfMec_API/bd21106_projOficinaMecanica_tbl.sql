@@ -1195,3 +1195,141 @@ where id < 6
 Update Usuario
 set role = 'mecanico'
 where id >= 6
+
+------------------------------------------------------------
+
+select * from Register
+
+sp_help 'Register'
+Alter table Usuario
+alter column [email] VARCHAR(100) NOT NULL;
+
+select * from Usuario
+
+Alter table Register
+add [role] VARCHAR(8);
+
+/*CREATE TABLE usuario (
+[id] INT IDENTITY (1, 1) NOT NULL,
+[username] VARCHAR (10) NULL,
+[senha] VARCHAR (10) NULL,
+[role] VARCHAR (20) NULL,
+PRIMARY KEY CLUSTERED ([id] ASC)
+);*/
+
+Insert into usuario (username, senha, role) values ('teste', 'teste123', 'teste');
+Insert into usuario (username, senha, role) values ('lunara', 'doggo123', 'mecanico');
+Insert into usuario (username, senha, role) values ('leandro', 'docinho123', 'cliente');
+
+Insert into Register (username, senha, email) values ('teste', 'teste123', 'teste@example.com');
+Insert into Register (username, senha, email) values ('lunara', 'doggo123', 'lunara.cunha@yahoo.com');
+Insert into Register (username, senha, email) values ('leandro', 'docinho123', 'leandrohufe@gmail.com');
+
+UPDATE Register
+set role = 'mecanico'
+where id = 5
+
+
+sp_help 'Usuario'
+
+ALTER TABLE Usuario
+add constraint UQ_usUsuario UNIQUE ([username]);
+
+ALTER TABLE Usuario
+add constraint UQ_senhaUsuario UNIQUE ([senha]);
+
+ALTER TABLE Usuario
+add constraint UQ_emailUsuario UNIQUE ([email]);
+
+sp_help 'Register'
+
+ALTER TABLE Register
+add constraint UQ_userNameReg UNIQUE ([username]);
+
+ALTER TABLE Register
+add constraint UQ_senhaReg UNIQUE ([senha]);
+
+
+ALTER TABLE Register
+add constraint UQ_emailReg UNIQUE ([email]);
+
+select * from Usuario
+
+
+update Usuario
+set role = 'Cliente', isMecanico = 'false', email = 'teste@example.com'
+where id = 1
+
+update Usuario
+set role = 'Mecanico', isMecanico = 'true', email = 'lunaracunha@yahoo.com'
+where id = 2
+
+update Usuario
+set role = 'Cliente', isMecanico = 'false', email = 'leandrohufe@gmail.com'
+where id = 3
+
+
+select * from Register
+
+update Register
+set IsMecanico = 'false'
+where id = 4 
+
+update Register
+set IsMecanico = 'false'
+where id = 6
+
+update Register
+set IsMecanico = 'true'
+where id = 5
+
+
+update Register
+set role = 'Cliente'
+where id = 6
+
+
+update Register
+set role = 'Cliente'
+where id = 4
+
+
+update Register
+set role = 'Mecanico'
+where id = 5
+
+select * from Usuario
+
+select * from Register
+
+Update Register
+set isMecanico = 'false'
+where id = 7
+
+select * from Usuario
+
+select * from Register
+
+Update Register
+set isMecanico = 'false'
+where id = 7
+
+
+Update Usuario
+set role = 'cliente'
+where role = 'Cliente'
+
+Update Usuario
+set role = 'mecanico'
+where role = 'Mecanico'
+
+select * from Register
+
+Update Register
+set role = 'cliente'
+where role = 'Cliente'
+
+
+Update Register
+set role  = 'mecanico'
+where role = 'Mecanico'

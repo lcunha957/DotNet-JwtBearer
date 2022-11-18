@@ -26,7 +26,7 @@ namespace ProjOfMec_API.Models
              public string? IsMecanico { get; set; } = "false";
 
            
-           [Required(ErrorMessage ="Perfis aceitos: Cliente e Mecanico")]
+           [Required(ErrorMessage ="Perfis aceitos: cliente e mecanico")]
            public string role { get; set; } = string.Empty;
 
           
