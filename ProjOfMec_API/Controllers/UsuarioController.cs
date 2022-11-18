@@ -58,8 +58,7 @@ namespace ProjOfMec_API.Controllers
             if (result != null)
                 return BadRequest();
 
-           
-            /* Já está sendo validado nas rotas das regras 
+            /* Já está sendo validado nas rotas das regras
             if (result.IsMecanico == "true")
             {
                 result.role = UserRoles.Mecanico;
@@ -70,6 +69,11 @@ namespace ProjOfMec_API.Controllers
                 result.role = UserRoles.Cliente;
             } */
 
+            if ((result.role != "cliente") || (result.role != "mecanico"))
+                return BadRequest("Digite {cliente} ou {mecanico} no campo roles");
+
+            if ((result.IsMecanico != "false") || (result.IsMecanico != "true"))
+                return BadRequest("Responda com false ou true: Você é mecânico?");
             try
             {
                 _context.Usuario.Add(model);
@@ -102,16 +106,22 @@ namespace ProjOfMec_API.Controllers
                     return BadRequest();
                 }
 
-            /* Já está sendo validado nas rotas das regras
-                    if (result.IsMecanico == "true")
-                {
-                    result.role = UserRoles.Mecanico;
-                }
+                /* Já está sendo validado nas rotas das regras
+                        if (result.IsMecanico == "true")
+                    {
+                        result.role = UserRoles.Mecanico;
+                    }
+    
+                    if (result.IsMecanico == "false")
+                    {
+                        result.role = UserRoles.Cliente;
+                    } */
 
-                if (result.IsMecanico == "false")
-                {
-                    result.role = UserRoles.Cliente;
-                } */
+                if ((result.role != "cliente") || (result.role != "mecanico"))
+                    return BadRequest("Digite {cliente} ou {mecanico} no campo role");
+
+                if ((result.IsMecanico != "false") || (result.IsMecanico != "true"))
+                    return BadRequest("Responda com false ou true: Você é mecânico?");
 
                 result.username = dadosUsuarioAlt.username;
                 result.senha = dadosUsuarioAlt.senha;
