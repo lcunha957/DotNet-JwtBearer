@@ -22,7 +22,7 @@ namespace ProjOfMec_API.Models
         [EmailAddress(ErrorMessage = "O {0} está em formato incorreto")]
         public string? email { get; set; }
 
-        [Required(ErrorMessage = "IsMecanico é obrigatório! Você é um mecanico?")]
+        [Required(ErrorMessage = "IsMecanico é obrigatório! Você é um mecanico?(false ou true)")]
              public string? IsMecanico { get; set; } = "false";
 
            
@@ -32,10 +32,10 @@ namespace ProjOfMec_API.Models
           
     }
 
-
+/*
   public static class RegisterRoles
     {
         public const string Cliente = "Cliente";
-        public const string Mecanico = "Mecanico";
-    }
+        public const string Mecanico  = "Mecanico";
+    } */
 }

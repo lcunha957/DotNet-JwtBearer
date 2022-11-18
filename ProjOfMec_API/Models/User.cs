@@ -22,7 +22,7 @@ namespace ProjOfMec_API.Models
         [Required(ErrorMessage = "Perfis aceitos: Cliente e Mecanico")]
         public string role { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "IsMecanico é obrigatório! Você é um mecanico?")]
+        [Required(ErrorMessage = "IsMecanico é obrigatório! Você é um mecanico?(false ou true)")]
         public string? IsMecanico { get; set; } = "false";
 
           [Required(ErrorMessage = "O {0} é requerido")]
@@ -30,9 +30,10 @@ namespace ProjOfMec_API.Models
         public string? email { get; set; }
     }
 
+/*
     public static class UserRoles
     {
         public const string Cliente = "Cliente";
         public const string Mecanico = "Mecanico";
-    }
+    } */
 }

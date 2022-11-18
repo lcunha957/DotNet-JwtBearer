@@ -41,6 +41,7 @@ namespace ProjOfMec_API.Controllers
                     "Usuario ou senha já existentes, registre outro usuário e senha ou faça o login em: http://localhost:5277/api/home/login"
                 );
              
+            /* Já está sendo validado nas rotas das regras
              if(userRegister.IsMecanico == "true")
              {
                 userRegister.role = UserRoles.Mecanico;
@@ -49,7 +50,7 @@ namespace ProjOfMec_API.Controllers
              if(userRegister.IsMecanico == "false")
              {
                 userRegister.role = UserRoles.Cliente;
-             }
+             } */
 
         
             try
@@ -115,7 +116,7 @@ namespace ProjOfMec_API.Controllers
         public string Cliente() => "Cliente";
 
         [HttpGet]
-        [Route("mecanico")]
+        [Route("Mecanico")]
         [Authorize(Roles = "mecanico")]
         public string Mecanico() => "Mecânico";
 
