@@ -10,4 +10,10 @@ namespace ProjOfMec_API.Models
         public string senha { get; set; } = string.Empty;
         public string role { get; set; } = string.Empty;
     }
+
+    public static class UserRoles
+    {
+        public const string Cliente = "Cliente";
+        public const string Mecanico = "Mecanico";
+    }
 }

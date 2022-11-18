@@ -34,8 +34,14 @@ namespace ProjOfMec_API.Controllers
 
             if (userRegister != null)
                 return Unauthorized(
-                    "Usuario ou senha já existentes, registre outro usuário e senha"
+                    "Usuario ou senha já existentes, registre outro usuário e senha ou faça o login em: http://localhost:5277/api/home/login"
                 );
+
+                if((userRegister.role != RegisterRoles.Cliente) || (userRegister.role != RegisterRoles.Mecanico))
+                {
+                    return Unauthorized("Escreva uma das regras adiante: mecanico ou cliente para registrar-se no nosso sistema");
+                }
+
             try
             {
                 _context.Register.Add(model);
