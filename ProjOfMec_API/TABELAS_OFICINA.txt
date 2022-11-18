@@ -1,0 +1,843 @@
+TABELAS 
+
+1)Cliente: (ok pra model, controller e banco de dados)
+
+Create table Cliente(
+[id] INT IDENTITY(1,1) NOT NULL,
+[cpfCnpj] VARCHAR(18), // unique constraint
+[nomeCliente] VARCHAR(100), //unique constraint
+[dataNasc] VARCHAR(10), 
+[endCliente] VARCHAR(100),
+[numCliente] VARCHAR(5),
+[bairroCliente] VARCHAR(100),
+[cidadeCliente] VARCHAR(100),
+[ufCliente] VARCHAR(2),
+[cepCliente] VARCHAR(10),
+[dataCadCliente] VARCHAR(10),
+[rgInscEstadual] VARCHAR(15), //unique constraint
+[celularCliente] VARCHAR(14), // unique constraint
+[telefoneCliente] VARCHAR(13),
+[emailCliente] VARCHAR(100), // unique constraint
+[senhaCliente] VARCHAR(10), // unique constraint
+[observacoesCliente] VARCHAR(500),
+);
+
+ALTER TABLE Cliente
+ADD CONSTRAINT Pk_idCli PRIMARY KEY CLUSTERED ([id] ASC);
+
+ALTER TABLE Cliente
+ADD CONSTRAINT UQ_nomeCli UNIQUE ([nomeCliente]);
+
+ALTER TABLE Cliente
+ADD CONSTRAINT UQ_rgInsEst UNIQUE ([rgInscEstadual]);
+
+ALTER TABLE Cliente
+ADD CONSTRAINT UQ_celCli UNIQUE ([celularCliente]);
+
+ALTER TABLE Cliente
+ADD CONSTRAINT UQ_emailCli UNIQUE ([emailCliente]);
+
+ALTER TABLE Cliente
+ADD CONSTRAINT UQ_senhaCli UNIQUE ([senhaCliente]);
+
+Insert into Cliente (cpfCnpj,nomeCliente,dataNasc, endCliente, numCliente,bairroCliente, cidadeCliente, ufCliente, cepCliente, dataCadCliente,
+rgInscEstadual, celularCliente, telefoneCliente, emailCliente, senhaCliente,observacoesCliente) values 
+('83622245921', 'Mariana Ester Clarice da Rosa', '09/03/1970', 'Rua José Bonifácio','390', 'Pedrinhas', 'Porto Velho', 'RO', '76801486', '13/11/2022',
+'3456997959', '69996078854', '6938171892', 'marianaesterdarosa@alanamaral.com.br','z1zSiRIs7e', null);
+
+Insert into Cliente (cpfCnpj,nomeCliente,dataNasc, endCliente, numCliente,bairroCliente, cidadeCliente, ufCliente, cepCliente, dataCadCliente,
+rgInscEstadual, celularCliente, telefoneCliente, emailCliente, senhaCliente,observacoesCliente) values 
+('59625613927', 'Priscila Rebeca Lima', '04/01/1948','Rua Laila Osman', '744', 'Jardim Dona Fátima Osman',
+'Foz do Iguaçu', 'PR', '85856670', '13/11/2022', '507556410', '45982605894', '4539552965', 'priscila_lima@slb.com.br', 'OyQKfwOWSw', null);
+
+Insert into Cliente (cpfCnpj,nomeCliente,dataNasc, endCliente, numCliente,bairroCliente, cidadeCliente, ufCliente, cepCliente, dataCadCliente,
+rgInscEstadual, celularCliente, telefoneCliente, emailCliente, senhaCliente,observacoesCliente) values 
+('97727519766', 'Vitor Benício Miguel Baptista', '09/06/1982', 'Quadra Cinco', '634', 'Quarenta Horas(Coqueiro)',
+'Ananindeua', 'PA', '67120865', '14/11/2022', '230022716', '91999394712', '9138781873', 'vitor_benicio_baptista@zmail.com',
+'FRzQkein3T', null);
+
+Insert into Cliente (cpfCnpj,nomeCliente,dataNasc, endCliente, numCliente,bairroCliente, cidadeCliente, ufCliente, cepCliente, dataCadCliente,
+rgInscEstadual, celularCliente, telefoneCliente, emailCliente, senhaCliente,observacoesCliente) values
+('81373730200', 'Luiz Tomás Vieira', '23/09/1953', 'Rua do Estaleiro', '736', 'Muruci(Fazendinha)', 'Macapá', 'AP', '68911465',
+'13/11/2022', '205594594', '96993848184', '9627515698', 'luiz_vieira@pepsico.com', 'wfMNr3YIeH', null);
+
+/*Pegou como id = 7, via método post SwaggerUI*/
+{
+  "id": 0,
+  "cpfCnpj": "94867529150",
+  "nomeCliente": "Renan Bernardo Gael Aparício",
+  "dataNasc": "21/06/2003",
+  "endCliente": "Quadra 103 Sul Avenida LO 3",
+  "numCliente": "166",
+  "bairroCliente": "Plano Diretor Sul",
+  "cidadeCliente": "Palmas",
+  "ufCliente": "TO",
+  "cepCliente": "77015036",
+  "dataCadCliente": "14/11/2022",
+  "rgInscEstadual": "475721391",
+  "celularCliente": "63997892106",
+  "telefoneCliente": "6325744582",
+  "emailCliente": "renan_b_aparicio@gmail.com",
+  "senhaCliente": "2PTpgHxu7Z",
+  "observacoesCliente": "ao lado das lojas Havan"
+}
+
+
+------------------------------------------------------
+
+
+csproj do ProjetoEscolaAPI
+
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1"/>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3"/>
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="6.0.2-mauipre.1.22054.8"/>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.2-mauipre.1.22054.8"/>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.2-mauipre.1.22054.8"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.1"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.1"/>
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.9"/>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.9"/>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3"/>
+  </ItemGroup>
+</Project>
+Footer
+© 2022 GitHub, Inc.
+Footer
+-------------------------------------------------------
+
+2) Veiculo: (ok pra model, controller e banco de dados)
+
+Create table Veiculo
+(
+[id] INT IDENTITY(1,1) NOT NULL,
+[idCliente] INT, 
+[tipoVeiculo] VARCHAR(100),
+[placa] VARCHAR(10), 
+[modelo] VARCHAR(100), 
+[ano] VARCHAR(10),
+[dataEntVeiculo] VARCHAR(20),
+);
+
+ALTER TABLE Veiculo
+ADD CONSTRAINT Pk_idVei PRIMARY KEY CLUSTERED ([id] ASC);
+
+ALTER TABLE Veiculo
+ADD CONSTRAINT fk_idCliVei FOREIGN KEY ([idCliente]) references Cliente ([id])
+
+ALTER TABLE Veiculo
+ADD CONSTRAINT UQ_placaVei UNIQUE ([placa]);
+
+
+ALTER TABLE Veiculo
+ADD CONSTRAINT UQ_modeloVei UNIQUE ([modelo]);
+
+// Inserido via SwaggerUI:
+
+[
+  {
+    "id": 1,
+    "idCliente": 2,
+    "tipoVeiculo": "carro",
+    "placa": "NAB8817",
+    "modelo": "Buggy IV e V - Bugre",
+    "ano": "string",
+    "dataEntVeiculo": "14/11/2022"
+  },
+  {
+    "id": 2,
+    "idCliente": 3,
+    "tipoVeiculo": "Carro",
+    "placa": "NAF0646",
+    "modelo": "Elan S2 1.6 16V - Lotus",
+    "ano": "1995",
+    "dataEntVeiculo": "14/11/2022"
+  },
+  {
+    "id": 3,
+    "idCliente": 4,
+    "tipoVeiculo": "Moto",
+    "placa": "HZU5370",
+    "modelo": "YS 250 FAZER L EDITION - YAMAHA",
+    "ano": "2017",
+    "dataEntVeiculo": "14/11/2022"
+  },
+  {
+    "id": 4,
+    "idCliente": 5,
+    "tipoVeiculo": "Moto",
+    "placa": "DS5GEW2",
+    "modelo": "SOFTAIL SPORT GLIDE FLSB - HARLEY DAVIDSON",
+    "ano": "2022",
+    "dataEntVeiculo": "14/11/2022"
+  },
+  {
+    "id": 5,
+    "idCliente": 7,
+    "tipoVeiculo": "caminhão",
+    "placa": "GKT9391",
+    "modelo": "HD78 3.0 16V 155cv(DIESEL) 2P - HYUNDAI",
+    "ano": "2012",
+    "dataEntVeiculo": "14/11/2022"
+  }
+]
+
+---------------------------------------------------------
+
+3) Mecanico: (ok pra model, controller e banco de dados)
+
+Create table Mecanico
+(
+[id] INT IDENTITY(1,1) NOT NULL,
+[cpfMecanico] VARCHAR(14),  
+[nomeMecanico] VARCHAR(100), 
+[endMecanico] VARCHAR(100), 
+[numMecanico] VARCHAR(5),
+[bairroMecanico] VARCHAR(100),
+[cidadeMecanico] VARCHAR(100),
+[ufMecanico] VARCHAR(2),
+[cepMecanico] VARCHAR(10),
+[dataCadMecanico] VARCHAR(10),
+[celMecanico] VARCHAR(20), 
+[telMecanico] VARCHAR(20),
+[emailMecanico] VARCHAR(100),
+[senhaMecanico] VARCHAR(10),
+[observMecanico] VARCHAR(500)
+);
+
+ALTER TABLE Mecanico
+ADD CONSTRAINT PK_idMec PRIMARY KEY CLUSTERED ([id] ASC);
+
+ALTER TABLE Mecanico
+ADD CONSTRAINT UQ_cpfMec UNIQUE ([cpfMecanico]);
+
+ALTER TABLE Mecanico
+ADD CONSTRAINT UQ_nomeMec UNIQUE ([nomeMecanico]);
+
+ALTER TABLE Mecanico
+ADD CONSTRAINT UQ_celMec UNIQUE ([celMecanico]);
+
+ALTER TABLE Mecanico
+ADD CONSTRAINT UQ_emailMec UNIQUE ([emailMecanico]);
+
+ALTER TABLE Mecanico
+ADD CONSTRAINT UQ_senhaMec UNIQUE ([senhaMecanico]);
+
+/*Adicionado via SwaggerUI*/
+[
+  {
+    "id": 1,
+    "cpfMecanico": "33082704638",
+    "nomeMecanico": "Tatiane Sophia Druomond",
+    "endMecanico": "Rua Joao Felipe Santiago",
+    "numMecanico": "461",
+    "bairroMecanico": "Rosa dos Ventos",
+    "cidadeMecanico": "Parnamirim",
+    "ufMecanico": "RN",
+    "cepMecanico": "59141570",
+    "dataCadMecanico": "13/11/2022",
+    "celMecanico": "84999309819",
+    "telMecanico": "8437802327",
+    "emailMecanico": "tatiane_sophia_drumond@eton.com.br",
+    "senhaMecanico": "ZBoQhCOAub",
+    "observMecanico": "primeira mecanica"
+  },
+  {
+    "id": 2,
+    "cpfMecanico": "59764638783",
+    "nomeMecanico": "Noah Nicolas Nathan Freitas",
+    "endMecanico": "Travessa Caubi",
+    "numMecanico": "533",
+    "bairroMecanico": "Barra do Ceará",
+    "cidadeMecanico": "Fortaleza",
+    "ufMecanico": "CE",
+    "cepMecanico": "60331102",
+    "dataCadMecanico": "13/11/2022",
+    "celMecanico": "85983938516",
+    "telMecanico": "8528313960",
+    "emailMecanico": "noah_nicolas_freitas@right.com.br",
+    "senhaMecanico": "J1UijWIZ2Z",
+    "observMecanico": "rg=243067896"
+  },
+  {
+    "id": 3,
+    "cpfMecanico": "41210593017",
+    "nomeMecanico": "Breno Ian Farenzo",
+    "endMecanico": "Travessa 6",
+    "numMecanico": "902",
+    "bairroMecanico": "Remedios",
+    "cidadeMecanico": "Santana",
+    "ufMecanico": "AP",
+    "cepMecanico": "68927039",
+    "dataCadMecanico": "13/11/2022",
+    "celMecanico": "96997255203",
+    "telMecanico": "9639712397",
+    "emailMecanico": "brenoianfarenzo@abrangenciacorretora.com.br",
+    "senhaMecanico": "Zo6i6LRRHs",
+    "observMecanico": "rg=305950198, nasc: 03/02/1986"
+  },
+  {
+    "id": 4,
+    "cpfMecanico": "72917679520",
+    "nomeMecanico": "Yago Fernando Diego de Paula",
+    "endMecanico": "Avenida Borges de Medeiros",
+    "numMecanico": "1501",
+    "bairroMecanico": "Praia de Belas",
+    "cidadeMecanico": "Porto Alegre",
+    "ufMecanico": "RS",
+    "cepMecanico": "90119900",
+    "dataCadMecanico": "13/11/2022",
+    "celMecanico": "51981494646",
+    "telMecanico": "5139306001",
+    "emailMecanico": "yago-depaula79@zipmail.com.br",
+    "senhaMecanico": "dsUFCUbIIW",
+    "observMecanico": "rg=192124845, nasc: 01/06/1987, apto 604F"
+  },
+  {
+    "id": 5,
+    "cpfMecanico": "57379701673",
+    "nomeMecanico": "Isabelle Aparecida Manuela Fogaça",
+    "endMecanico": "Rua Paraguacu",
+    "numMecanico": "485",
+    "bairroMecanico": "das Laranjeiras",
+    "cidadeMecanico": "Serra",
+    "ufMecanico": "ES",
+    "cepMecanico": "29175617",
+    "dataCadMecanico": "13/11/2022",
+    "celMecanico": "27993359808",
+    "telMecanico": "2738224260",
+    "emailMecanico": "isabelleaparecidafogaca@dmail.com",
+    "senhaMecanico": "GcMIaQMQsZ",
+    "observMecanico": "rg=388947901, nasc=05/12/1993"
+  }
+]
+---------------------------------------------------------
+4) Servico (ok pra model, controller e banco de dados)
+
+Create table Servico
+(
+[id] INT IDENTITY(1,1) NOT NULL,
+[nomeServico] VARCHAR(100), // unique constraint
+[preco] VARCHAR(10),
+[tipoServico] VARCHAR(100),
+[dataCadServico] VARCHAR(100)
+);
+
+ALTER TABLE Servico
+ADD CONSTRAINT PK_idServ PRIMARY KEY CLUSTERED ([id] ASC);
+
+ALTER TABLE Servico
+ADD CONSTRAINT UQ_nomeServ UNIQUE ([nomeServico]);
+
+ALTER TABLE Servico
+ADD CONSTRAINT UQ_tipoServ UNIQUE ([tipoServico]);
+
+/*Obtidos via SwaggerUI */
+
+[
+  {
+    "id": 3,
+    "nomeServico": "amortecedor de suspensao",
+    "preco": "145.97",
+    "tipoServico": "manutencao de peca de carro - 01",
+    "dataCadServico": "14/11/2022"
+  },
+  {
+    "id": 4,
+    "nomeServico": "baterias de moto YAMAHA CG",
+    "preco": "528.45",
+    "tipoServico": "manutencao de pecas de moto - 01",
+    "dataCadServico": "14/11/2022"
+  },
+  {
+    "id": 5,
+    "nomeServico": "cabos de freio",
+    "preco": "432.88",
+    "tipoServico": "manutencao de pecas de moto - 02 ",
+    "dataCadServico": "14/11/2022"
+  },
+  {
+    "id": 6,
+    "nomeServico": "pistao de liga leve de aluminio",
+    "preco": "120.50",
+    "tipoServico": "manutencao de pecas de carro - 02",
+    "dataCadServico": "14/11/2022"
+  },
+  {
+    "id": 7,
+    "nomeServico": "caixa de fusivel",
+    "preco": "384.95",
+    "tipoServico": "manutencao de pecas de caminhao - 01",
+    "dataCadServico": "14/11/2022"
+  },
+  {
+    "id": 8,
+    "nomeServico": "pelicula fosca resistente a agua",
+    "preco": "5125.56",
+    "tipoServico": "manutencao de acessorios de carro - 01",
+    "dataCadServico": "14/11/2022"
+  },
+  {
+    "id": 9,
+    "nomeServico": "pelicula fosca anti-agua e anti-risco",
+    "preco": "2346.52",
+    "tipoServico": "manutencao de acessorios de moto - 01",
+    "dataCadServico": "14/11/2022"
+  },
+  {
+    "id": 10,
+    "nomeServico": "pelicula fosca resistente a areia, agua e riscos",
+    "preco": "15286.29",
+    "tipoServico": "manutencao de acessorios de caminhao - 01",
+    "dataCadServico": "14/11/2022"
+  }
+]
+
+--------------------------------------------------------------------------------
+5) Orcamento (ok pra model, controller e banco de dados)
+// Para evitar tabelas a existência da primeira dependa da segunda; 
+//então vamos unir as tabelas de orcamento e pagamento na tabela orcamento:
+
+Create table Orcamento
+(
+[id] INT IDENTITY(1,1) NOT NULL, // pk
+[idServico] INT,    // fk
+[valorUniOrc] VARCHAR(10),
+[quantidade] VARCHAR (10),
+[valorTotalOrc] VARCHAR(10),
+[OrcTipoServico] VARCHAR(100), // fk
+[OrcNomeServico] VARCHAR(100), // fk
+[idCliente] INT, // fk
+[idMecanico] INT // fk
+[dataCadOrcamento] VARCHAR(20),
+[dataAprovOrcamento] VARCHAR(20),
+[dataValidadeOrcamento] VARCHAR(20),
+[PagoEm] VARCHAR (20),
+[idPagamento] INT, //unique constraint
+[formaPgto] VARCHAR(100),
+[valorPago] VARCHAR(100),
+[dataCadPgto] VARCHAR(20),
+[dataValPgto] VARCHAR(20),
+[observacoesOrcamento] VARCHAR (500)
+);
+
+ALTER TABLE Orcamento
+ADD CONSTRAINT Pk_idOrc PRIMARY KEY CLUSTERED ([id] ASC);
+
+ALTER TABLE Orcamento
+ADD CONSTRAINT fk_idSvOrc FOREIGN KEY ([idServico]) references Servico ([id]);
+
+ALTER TABLE Orcamento
+ADD CONSTRAINT fk_tipoSvOrc FOREIGN KEY ([OrcTipoServico]) references Servico ([tipoServico]);
+
+ALTER TABLE Orcamento
+ADD CONSTRAINT fk_nomeSvOrc FOREIGN KEY ([OrcNomeServico]) references Servico ([nomeServico]);
+
+ALTER TABLE Orcamento
+ADD CONSTRAINT fk_idCliOrc FOREIGN KEY ([idCliente]) references Cliente ([id]);
+
+ALTER TABLE Orcamento
+ADD CONSTRAINT fk_idMecOrc FOREIGN KEY ([idMecanico]) references Mecanico ([id]);
+
+ALTER TABLE Orcamento
+ADD CONSTRAINT UQ_idPagOrc UNIQUE ([idPagamento]);
+
+
+
+
+// Dados inseridos via SSMS:
+Insert into Orcamento (idServico, valorUniOrc, quantidade, valorTotalOrc, OrcTipoServico,
+OrcNomeServico, idCliente, idMecanico, dataCadOrcamento, dataAprovOrcamento, dataValidadeOrcamento,
+PagoEm, idPagamento, formaPgto, valorPago, dataCadPgto, dataValPgto, observacoesOrcamento)
+values
+(3, '145.97', '4', '583.88', 'manutencao de peca de carro - 01', 'amortecedor de suspensao',2, 2, '13/11/2022', '13/11/2022', '20/11/2022',
+'13/11/2022', 1, 'cartao de credito 3x', '583.88', '13/11/2022', '21/11/2022', 'pago em 3x iguais de 142.63 reais');
+
+Insert into Orcamento (idServico, valorUniOrc, quantidade, valorTotalOrc, OrcTipoServico,
+OrcNomeServico, idCliente, idMecanico, dataCadOrcamento, dataAprovOrcamento, dataValidadeOrcamento,
+PagoEm, idPagamento, formaPgto, valorPago, dataCadPgto, dataValPgto, observacoesOrcamento)
+values
+(6, '120.50', '5', '602.50', 'manutencao de pecas de carro - 02', 'pistao de liga leve de aluminio', 3, 1, '13/11/2022', '13/11/2022', 
+'20/11/2022', '14/11/2022', 2, 'cartao de credito 2x', '602.50', '14/11/2022', '21/11/2022', 'pago em 2x iguais de 301.25 reais');
+
+select * from Servico;
+
+Insert into Orcamento (idServico, valorUniOrc, quantidade, valorTotalOrc, OrcTipoServico,
+OrcNomeServico, idCliente, idMecanico, dataCadOrcamento, dataAprovOrcamento, dataValidadeOrcamento,
+PagoEm, idPagamento, formaPgto, valorPago, dataCadPgto, dataValPgto, observacoesOrcamento)
+values
+(5, '432.88', '2', '865.76', 'manutencao de pecas de moto - 02', 'cabos de freio', 5, 3, '14/11/2022', '15/11/2022', '21/11/2022',
+'15/11/2022', 3, 'cartao de credito 3x', '865.76', '15/11/2022', '21/11/2022', 'pago em 3x iguais de 288.59 reais');
+
+Insert into Orcamento (idServico, valorUniOrc, quantidade, valorTotalOrc, OrcTipoServico,
+OrcNomeServico, idCliente, idMecanico, dataCadOrcamento, dataAprovOrcamento, dataValidadeOrcamento,
+PagoEm, idPagamento, formaPgto, valorPago, dataCadPgto, dataValPgto, observacoesOrcamento)
+values
+(4,'528.45', '2', '1056.90', 'manutencao de pecas de moto - 01', 'baterias de moto YAMAHA CG',4, 4, '14/11/2022', '14/11/2022', '21/11/2022',
+'14/11/2022', 4, 'cartão de crédito 3x','1056.90', '14/11/2022', '21/11/2022', 'pago em 3x iguais de 352.30 reais');
+
+Insert into Orcamento (idServico, valorUniOrc, quantidade, valorTotalOrc, OrcTipoServico,
+OrcNomeServico, idCliente, idMecanico, dataCadOrcamento, dataAprovOrcamento, dataValidadeOrcamento,
+PagoEm, idPagamento, formaPgto, valorPago, dataCadPgto, dataValPgto, observacoesOrcamento)
+values
+(10, '15286.29', '1', '15286.29', 'manutencao de acessorios de caminhao - 01', 'pelicula fosca resistente a areia, agua e riscos', 7, 5, 
+'14/11/2022', '14/11/2022','21/11/2022', '14/11/2022', 5, 'cartão de credito 8x', '15286.29', '14/11/2022', '21/11/2022', 'pago em 8x iguais de 1910.78 reais');
+-------------------------------------------------
+
+6) Reparo (ok pra model, controller e banco de dados)
+
+Create table Reparo
+(
+[id] INT IDENTITY(1,1) NOT NULL,
+[RepNomeCliente] VARCHAR(100), // fk
+[RepNomeMecanico] VARCHAR (100), // fk
+[RepModeloVeiculo] VARCHAR(100), // fk
+[RepPlacaVeiculo] VARCHAR(10), // fk
+[RepIdOrcamento] INT, // fk
+[AlteracaoFuncional] VARCHAR(500), 
+[Diagnostico] VARCHAR(500),
+[DataCadastroReparo] VARCHAR(20)
+);
+
+ALTER TABLE Reparo
+ADD CONSTRAINT Pk_idRep PRIMARY KEY CLUSTERED ([id] ASC);
+
+select * from Cliente
+ALTER TABLE Reparo
+ADD CONSTRAINT fk_nomeCliRep FOREIGN KEY ([RepNomeCliente]) references Cliente ([nomeCliente]);
+
+
+ALTER TABLE Reparo
+ADD CONSTRAINT fk_NomeMecRep FOREIGN KEY ([RepNomeMecanico]) references Mecanico ([nomeMecanico]);
+
+ALTER TABLE Reparo
+ADD CONSTRAINT fk_ModeloVeiRep FOREIGN KEY ([RepModeloVeiculo]) references Veiculo ([modelo]);
+
+ALTER TABLE Reparo
+ADD CONSTRAINT fk_PlacaVeiRep FOREIGN KEY ([RepPlacaVeiculo]) references Veiculo ([placa]);
+
+ALTER TABLE Reparo
+ADD CONSTRAINT fk_IdOrcRep FOREIGN KEY ([RepIdOrcamento]) references Orcamento ([id]);
+
+
+Insert into Reparo (RepNomeCliente, RepNomeMecanico, RepModeloVeiculo, RepPlacaVeiculo,RepIdOrcamento, AlteracaoFuncional, Diagnostico, DataCadastroReparo) values
+('Mariana Ester Clarice da Rosa','Noah Nicolas Nathan Freitas','Buggy IV e V - Bugre', 
+'NAB8817', 4,'barulho de eixo solto com pneus rodando quadrado',
+ 'trocar suspensao', '13/11/2022');
+
+Insert into Reparo (RepNomeCliente, RepNomeMecanico, RepModeloVeiculo, RepPlacaVeiculo,
+RepIdOrcamento, AlteracaoFuncional, Diagnostico, DataCadastroReparo) values
+('Priscila Rebeca Lima', 'Tatiane Sophia Druomond', 'Elan S2 1.6 16V - Lotus',
+'NAF0646', 5, 'fraco rendimento no combustivel', 'trocar pistao',
+'13/11/2022');
+
+Insert into Reparo (RepNomeCliente, RepNomeMecanico, RepModeloVeiculo, RepPlacaVeiculo,
+RepIdOrcamento, AlteracaoFuncional, Diagnostico, DataCadastroReparo) values
+('Vitor Benício Miguel Baptista', 'Yago Fernando Diego de Paula',
+ 'YS 250 FAZER L EDITION - YAMAHA', 'HZU5370',
+8, 'moto nao liga', 'trocar bateria', '14/11/2022');
+
+Insert into Reparo (RepNomeCliente, RepNomeMecanico, RepModeloVeiculo, RepPlacaVeiculo,
+RepIdOrcamento, AlteracaoFuncional, Diagnostico, DataCadastroReparo) values
+('Renan Bernardo Gael Aparício', 'Isabelle Aparecida Manuela Fogaça', 'HD78 3.0 16V 155cv(DIESEL) 2P - HYUNDAI',
+'GKT9391', 9, 'cabine com lataria riscada', 'trocar pintura e colocar pelicula', '14/11/2022');
+
+Insert into Reparo (RepNomeCliente, RepNomeMecanico, RepModeloVeiculo, RepPlacaVeiculo,
+RepIdOrcamento, AlteracaoFuncional, Diagnostico, DataCadastroReparo) values
+('Luiz Tomás Vieira', 'Breno Ian Farenzo', 'SOFTAIL SPORT GLIDE FLSB - HARLEY DAVIDSON',
+'DS5GEW2', 7, 'freio sem cabo', 'trocar freio', '15/11/2022');
+
+--------------------------------------------------------------
+
+/*TESTAR ROTAS DE LOGIN NA HOME CONTROLLER*/
+
+/*Tive que instalar as versões  abaixo via terminal cmd como Admnistrador:
+dotnet add package Microsoft.AspNetCore.Authentication -v 2.2.0,
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer -v 6.0.11 
+
+--segui os códigos exatos da apostila 04
+
+
+-- Criei a tabela Usuario:
+CREATE TABLE usuario (
+[id] INT IDENTITY (1, 1) NOT NULL,
+[username] VARCHAR (10) NULL,
+[senha] VARCHAR (10) NULL,
+[role] VARCHAR (20) NULL,
+PRIMARY KEY CLUSTERED ([id] ASC)
+);
+
+-- e inseri no banco para testar as rotas da Home Controller
+Insert into usuario (username, senha, role) values ('teste', 'teste123', 'teste'); // rota anonima
+Insert into usuario (username, senha, role) values ('lunara', 'senha1234', 'mecanico'); //rota login
+Insert into usuario (username, senha, role) values ('leandro', 'senha1803', 'mecanico'); //rota login
+Insert into usuario (username, senha, role) values ('estefanny', 'senha0501', 'cliente'); // rota login
+
+Para verificar a rota autenticada, puxar o token gerado conforme a apostila 4.
+
+*/
+
+Na hora de testar a rota authenticated deu esse erro, que foi descrito pelo stakcOverFlow:
+https://stackoverflow.com/questions/71456314/net-6-problem-bearer-error-invalid-token
+
+Baixei a biblioteca: dotnet add package System.IdentityModel.Tokens.Jwt --v 6.25.0
+
+Nao deu certo, então tentei por esse tutorial (o token dá como inválido):
+https://bytelanguage.net/2021/07/30/net-6-jwt-authentication-in-minimal-web-api/
+
+----------------------------------------------------------
+
+REFAZER TODAS AS TABELAS, PARA TER:
+tabela Cliente (manter)
+
+id
+cpf
+nome
+dataNasc
+endereco (Rua X, n.Y, cep:12345-678, apto 12S, Paulinia-SP)
+celular
+email
+
++++++++++++++++++
+PRO FRONTEND
+acoes
+---------------
+tabela Veiculo (REFATORADA)
+
+id
+nome
+marca
+modelo
+tamanho
+preco
+quantidade
+
++++++++++++++++++
+PRO FRONTEND
+acoes
+
+----------------
+tabela CadastroUsuario
+id
+nome
+cpf
+dataNasc
+celular
+email
+
++++++++++++++++++
+PRO FRONTEND
+acoes
+
+___________________________________________________________
+
+--------------------------------------
+
+
+PRECISA TER AS TABELAS:
+
+1)tabela Cliente 
+
+id
+cpf
+nome
+dataNasc
+enderecoCompleto (Rua X, n.Y, cep:12345-678, apto 12S, Paulinia-SP)
+celular
+email
+
+################################
+2) tabela Mecanico
+enxugar Mecanico e incorporar Servico e Orcamento
+
+O Mecanico é quem vai cobrar o Orcamento
+
+tabela OrdemDeServico
+
+id  --> id Universal é a ordem de servico
+idCliente --> idCliente
+idVeiculo --> pra saber qual o veiculo que vai fazer o reparo
+nomeMecanico --> nome do mecanico
+defeitoReclamado --> razao do cliente ir a loja
+diagnostico --> o que o mecanico fez 
+PagoEm --> valor e data de pagamento
+
+###############################
+
+2) tabela Mecanico
+enxugar Mecanico e incorporar Servico e Orcamento
+
+O Mecanico é quem vai cobrar o Orcamento
+
+tabela OrdemDeServico
+
+id  --> id Universal é a ordem de servico
+idCliente --> idCliente --> selecionar idCliente  
+idVeiculo --> pra saber qual o veiculo que vai fazer o reparo --> selecionar idVeiculo 
+nomeMecanico --> nome do mecanico
+defeitoReclamado --> razao do cliente ir a loja
+diagnostico --> o que o mecanico fez 
+PagoEm --> valor e data de pagamento
+
+##############################
+
+4) tabela Usuario
+
+id
+nomeCompleto
+cpf
+celular
+email
+senha
+
+##################################
+
+/*tabelas reformuladas em 15-11-2022 as 20h37min*/
+
+create table Cliente --> ok para model e controller
+(
+[id] INT IDENTITY(1,1) NOT NULL,
+[cpf] VARCHAR(11), 
+[nomeCompleto] VARCHAR(100),
+[DataNasc] VARCHAR(10), 
+[EnderecoCompleto] VARCHAR(200),
+[celular] VARCHAR(14),
+[email] VARCHAR(100)
+);
+
+
+ALTER TABLE Cliente
+ADD CONSTRAINT Pk_idCliente PRIMARY KEY CLUSTERED ([id] ASC)
+
+ALTER TABLE Cliente
+ADD CONSTRAINT UQ_cpfCli UNIQUE([cpf]);
+
+---------------------------
+ 
+Create table Veiculo --> ok para model e controller
+([id] INT IDENTITY(1,1) NOT NULL,
+[idCliente] INT,
+[marca] VARCHAR (100),
+[modelo] VARCHAR (100),
+[placa] VARCHAR(7),
+[tamanho] VARCHAR (100)
+);
+
+ALTER TABLE Veiculo
+ADD CONSTRAINT PK_idVeiculo PRIMARY KEY CLUSTERED ([id] ASC)
+
+ALTER TABLE Veiculo
+ADD CONSTRAINT UQ_placaVeiculo UNIQUE ([placa])
+
+ALTER TABLE Veiculo
+ADD CONSTRAINT FK_idCliVei FOREIGN KEY([idCliente]) REFERENCES Cliente ([id])
+
+------------------------------------
+
+Create table OrdemDeServico ->  ok para model e controller
+([id] INT IDENTITY(1,1) NOT NULL,
+[idCliente] INT,
+[idVeiculo] INT,
+[nomeMecanico] VARCHAR(100),
+[defeitoReclamado] VARCHAR (500),
+[diagnostico] VARCHAR (500),
+[PagoEm] VARCHAR (500)
+);
+
+ALTER TABLE OrdemDeServico
+ADD CONSTRAINT PK_idOrdDeServ PRIMARY KEY CLUSTERED ([id])
+
+ALTER TABLE OrdemDeServico
+ADD CONSTRAINT FK_idCliOrdDeServ FOREIGN KEY ([idCliente]) REFERENCES Cliente ([id])
+
+ALTER TABLE OrdemDeServico
+ADD CONSTRAINT FK_idVeiOrdDeServ FOREIGN KEY ([idVeiculo]) REFERENCES Veiculo ([id])
+
+
+ALTER TABLE OrdemDeServico
+ADD  [DataPgto] VARCHAR(100)
+
+ALTER TABLE OrdemDeServico
+ADD [FormaPgto] VARCHAR(100)
+
+ALTER TABLE OrdemDeServico
+ADD [ValorPgto] VARCHAR(100)
+
+ALTER TABLE OrdemDeServico
+DROP COLUMN [PagoEm] 
+
+ID 1 = Pago no cartao de credito em 3x iguais de 212.47 na data de 14/11/2022. Total de 637.41 reais
+ID 2 = Pago no cartao de credito em 5x iguais de 153.40 na data de 14/11/2022. Total de 767.00 reais
+ID 4 = Pago no cartao de credito em 3x iguais de 125.80 na data de 15/11/2022. Total de 377.40 reais
+ID 5 = Pago no cartao de credito em 4x iguais de 291.74 na data de 15/11/2022. Total de 1166.96 reais
+ID 6 = Pago no cartao de credito em 8x iguais de 460.30 na data de 15/11/2022. Total de 3682.40 reais
+
+select * from OrdemDeServico
+
+UPDATE OrdemDeServico
+SET DataPgto = '14/11/2022'
+WHERE id < 3
+
+UPDATE OrdemDeServico
+SET DataPgto = '15/11/2022'
+WHERE id > 3
+
+UPDATE OrdemDeServico
+SET FormaPgto = 'cartão de crédito'
+WHERE id < 7
+
+UPDATE OrdemDeServico
+SET ValorPgto = '3x de 212,47 = 637,41 reais'
+Where id = 1
+
+UPDATE OrdemDeServico
+SET ValorPgto = '5x de 153,40 = 767,00 reais'
+Where id = 2
+
+UPDATE OrdemDeServico
+SET ValorPgto = '3x de 125,80 = 377,40 reais'
+Where id = 4
+
+select * from OrdemDeServico
+
+UPDATE OrdemDeServico
+SET ValorPgto = '4x de 291,74 = 1166,96 reais'
+Where id = 5
+
+UPDATE OrdemDeServico
+SET ValorPgto = '8x de 460,30 = 3682,40 reais'
+WHERE id = 6
+
+-----------------------------------
+
+Create table Usuario ->  ok para model e controller
+([id] INT IDENTITY(1,1) NOT NULL,
+[nomeCompleto] VARCHAR (100),
+[cpf] VARCHAR(11),
+[celular] VARCHAR(14),
+[email] VARCHAR(100),
+[senha] VARCHAR(10)
+);
+
+ALTER TABLE Usuario
+ADD CONSTRAINT PK_idUsuario PRIMARY KEY CLUSTERED ([id])
+
+
+ALTER TABLE Usuario
+ADD CONSTRAINT UQ_cpfUsuario UNIQUE ([cpf])
+------------------------------------------------------------
+
+*******************
+1. Atualizar Models e Controllers no Dot.Net 6.0 -> OK
+
+2.Fazer testes no Insomnia e SwaggerUI
+- 5 registros em cada tabela, incluindo 1 deleção e 1 atualização
+*****************************
+ 
