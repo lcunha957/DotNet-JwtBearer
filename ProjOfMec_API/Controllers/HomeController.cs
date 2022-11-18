@@ -28,8 +28,12 @@ namespace ProjOfMec_API.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] Register model)
         {
+
+            
+           var role = model.IsMecanico ? RegisterRoles.Mecanico : RegisterRoles.Cliente;
+
             var userRegister = _context.Register
-                .Where(u => u.username == model.username && u.senha == model.senha)
+                .Where(u => u.username == model.username && u.senha == model.senha && u.role == model.role)
                 .FirstOrDefault();
 
             if (userRegister != null)
@@ -37,10 +41,13 @@ namespace ProjOfMec_API.Controllers
                     "Usuario ou senha já existentes, registre outro usuário e senha ou faça o login em: http://localhost:5277/api/home/login"
                 );
 
-                if((userRegister.role != RegisterRoles.Cliente) || (userRegister.role != RegisterRoles.Mecanico))
+
+            
+              /* deu erro:
+               if((userRegister.role != RegisterRoles.Cliente) || (userRegister.role != RegisterRoles.Mecanico))
                 {
                     return Unauthorized("Escreva uma das regras adiante: mecanico ou cliente para registrar-se no nosso sistema");
-                }
+                }*/
 
             try
             {

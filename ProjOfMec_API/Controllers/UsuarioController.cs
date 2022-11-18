@@ -49,22 +49,20 @@ namespace ProjOfMec_API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> post([FromBody]User model)
+        public async Task<ActionResult> post([FromBody] User model)
         {
-
             var result = _context.Usuario
                 .Where(u => u.username == model.username && u.senha == model.senha)
                 .FirstOrDefault();
-    
-              if(result != null)
-              return BadRequest();
 
-              if((result.role != UserRoles.Cliente) || (result.role != UserRoles.Mecanico)) 
-                return BadRequest("Escreva uma das regras adiante: mecanico ou cliente para registrar o usuário no nosso sistema"); 
+            if (result != null)
+                return BadRequest();
+
+            var role = model.IsMecanico ? UserRoles.Mecanico : UserRoles.Cliente;
 
             try
             {
-                 _context.Usuario.Add(model);
+                _context.Usuario.Add(model);
                 if ((await _context.SaveChangesAsync() == 1))
                 {
                     //return Ok();
@@ -87,6 +85,8 @@ namespace ProjOfMec_API.Controllers
         {
             try
             {
+                var role = dadosUsuarioAlt.IsMecanico ? UserRoles.Mecanico : UserRoles.Cliente;
+
                 //verifica se existe aluno a ser alterado
                 var result = await _context.Usuario.FindAsync(UsuarioId);
                 if (UsuarioId != result.Id)
@@ -96,6 +96,8 @@ namespace ProjOfMec_API.Controllers
                 result.username = dadosUsuarioAlt.username;
                 result.senha = dadosUsuarioAlt.senha;
                 result.role = dadosUsuarioAlt.role;
+                result.IsMecanico = dadosUsuarioAlt.IsMecanico;
+                result.email = dadosUsuarioAlt.email;
 
                 await _context.SaveChangesAsync();
                 return Created($"/api/usuario/{dadosUsuarioAlt.username}", dadosUsuarioAlt);
@@ -108,7 +110,6 @@ namespace ProjOfMec_API.Controllers
                 );
             }
         }
-
 
         [HttpDelete("{UsuarioId}")]
         public async Task<ActionResult> delete(int UsuarioId)
