@@ -116,7 +116,7 @@ namespace ProjOfMec_API.Controllers
         public string Cliente() => "Cliente";
 
         [HttpGet]
-        [Route("Mecanico")]
+        [Route("mecanico")]
         [Authorize(Roles = "mecanico")]
         public string Mecanico() => "Mecânico";
 
