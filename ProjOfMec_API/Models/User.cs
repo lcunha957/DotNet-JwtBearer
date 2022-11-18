@@ -22,8 +22,6 @@ namespace ProjOfMec_API.Models
         [Required(ErrorMessage = "Perfis aceitos: cliente e mecanico")]
         public string role { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "IsMecanico é obrigatório! Você é um mecanico?(false ou true)")]
-        public string? IsMecanico { get; set; } = "nao";
 
           [Required(ErrorMessage = "O {0} é requerido")]
         [EmailAddress(ErrorMessage = "O {0} está em formato incorreto")]
