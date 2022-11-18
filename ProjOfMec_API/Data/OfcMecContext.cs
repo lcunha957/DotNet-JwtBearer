@@ -23,8 +23,6 @@ namespace ProjOfMec_API.Data
         public DbSet<OrdemDeServico>? OrdemDeServico { get; set; }
 
         public DbSet<User>? Usuario { get; set; }
-
-        public DbSet<Register>? Register { get; set; }
         
         public DbSet<Veiculo>? Veiculo { get; set; }
     }
