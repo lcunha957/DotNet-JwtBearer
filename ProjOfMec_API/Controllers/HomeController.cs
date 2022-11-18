@@ -30,7 +30,7 @@ namespace ProjOfMec_API.Controllers
         {
 
             
-           var role = model.IsMecanico ? RegisterRoles.Mecanico : RegisterRoles.Cliente;
+           
 
             var userRegister = _context.Register
                 .Where(u => u.username == model.username && u.senha == model.senha && u.role == model.role)
@@ -40,15 +40,18 @@ namespace ProjOfMec_API.Controllers
                 return Unauthorized(
                     "Usuario ou senha já existentes, registre outro usuário e senha ou faça o login em: http://localhost:5277/api/home/login"
                 );
+             
+             if(userRegister.IsMecanico == "true")
+             {
+                userRegister.role = UserRoles.Mecanico;
+             }
 
+             if(userRegister.IsMecanico == "false")
+             {
+                userRegister.role = UserRoles.Cliente;
+             }
 
-            
-              /* deu erro:
-               if((userRegister.role != RegisterRoles.Cliente) || (userRegister.role != RegisterRoles.Mecanico))
-                {
-                    return Unauthorized("Escreva uma das regras adiante: mecanico ou cliente para registrar-se no nosso sistema");
-                }*/
-
+        
             try
             {
                 _context.Register.Add(model);
@@ -77,7 +80,7 @@ namespace ProjOfMec_API.Controllers
         {
             //verifica se existe aluno a ser excluído
             var user = _context.Usuario
-                .Where(u => u.username == usuario.username && u.senha == usuario.senha)
+                .Where(u => u.username == usuario.username && u.senha == usuario.senha )
                 .FirstOrDefault();
 
             if (user == null)

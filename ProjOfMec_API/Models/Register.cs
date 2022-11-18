@@ -23,7 +23,7 @@ namespace ProjOfMec_API.Models
         public string? email { get; set; }
 
         [Required(ErrorMessage = "IsMecanico é obrigatório! Você é um mecanico?")]
-          public bool IsMecanico { get; set; } = false; 
+             public string? IsMecanico { get; set; } = "false";
 
            
            [Required(ErrorMessage ="Perfis aceitos: Cliente e Mecanico")]

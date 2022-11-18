@@ -58,7 +58,15 @@ namespace ProjOfMec_API.Controllers
             if (result != null)
                 return BadRequest();
 
-            var role = model.IsMecanico ? UserRoles.Mecanico : UserRoles.Cliente;
+            if (result.IsMecanico == "true")
+            {
+                result.role = UserRoles.Mecanico;
+            }
+
+            if (result.IsMecanico == "false")
+            {
+                result.role = UserRoles.Cliente;
+            }
 
             try
             {
@@ -85,14 +93,23 @@ namespace ProjOfMec_API.Controllers
         {
             try
             {
-                var role = dadosUsuarioAlt.IsMecanico ? UserRoles.Mecanico : UserRoles.Cliente;
-
                 //verifica se existe aluno a ser alterado
                 var result = await _context.Usuario.FindAsync(UsuarioId);
                 if (UsuarioId != result.Id)
                 {
                     return BadRequest();
                 }
+
+                if (result.IsMecanico == "true")
+                {
+                    result.role = UserRoles.Mecanico;
+                }
+
+                if (result.IsMecanico == "false")
+                {
+                    result.role = UserRoles.Cliente;
+                }
+
                 result.username = dadosUsuarioAlt.username;
                 result.senha = dadosUsuarioAlt.senha;
                 result.role = dadosUsuarioAlt.role;
