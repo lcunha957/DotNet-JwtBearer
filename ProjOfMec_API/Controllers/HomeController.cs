@@ -41,9 +41,7 @@ namespace ProjOfMec_API.Controllers
                     "Usuario ou senha já existentes, registre outro usuário e senha ou faça o login em: http://localhost:5277/api/home/login"
                 );
              
-             if((userRegister.role != "cliente") || (userRegister.role != "mecanico"))
-              return BadRequest("Digite {cliente} ou {mecanico} no campo role");
-
+          
             /* Já está sendo validado nas rotas das regras
              if(userRegister.IsMecanico == "true")
              {
