@@ -24,6 +24,40 @@ namespace ProjOfMec_API.Controllers
         }
 
         [HttpPost]
+        [Route("register")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register([FromBody] Register model)
+        {
+            var userRegister = _context.Register
+                .Where(u => u.username == model.username && u.senha == model.senha)
+                .FirstOrDefault();
+
+            if (userRegister != null)
+                return Unauthorized(
+                    "Usuario ou senha já existentes, registre outro usuário e senha"
+                );
+            try
+            {
+                _context.Register.Add(model);
+                if ((await _context.SaveChangesAsync() == 1))
+                {
+                    //return Ok();
+                    return Ok(Created($"/api/register/{model.username}", model));
+                }
+            }
+            catch
+            {
+                return this.StatusCode(
+                    StatusCodes.Status500InternalServerError,
+                    "Falha no acesso ao banco de dados."
+                );
+            }
+            // retorna BadRequest se não conseguiu incluir
+            return BadRequest();
+        }
+
+
+        [HttpPost]
         [Route("login")]
         [AllowAnonymous]
         public ActionResult<dynamic> Login([FromBody] User usuario)
