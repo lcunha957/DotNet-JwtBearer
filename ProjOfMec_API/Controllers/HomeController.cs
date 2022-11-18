@@ -26,13 +26,10 @@ namespace ProjOfMec_API.Controllers
         [HttpPost]
         [Route("register")]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody] Register model)
+        public async Task<IActionResult> Register([FromBody] User model)
         {
 
-            
-           
-
-            var userRegister = _context.Register
+               var userRegister = _context.Usuario
                 .Where(u => u.username == model.username && u.senha == model.senha && u.role == model.role)
                 .FirstOrDefault();
 
@@ -56,7 +53,7 @@ namespace ProjOfMec_API.Controllers
         
             try
             {
-                _context.Register.Add(model);
+                _context.Usuario.Add(model);
                 if ((await _context.SaveChangesAsync() == 1))
                 {
                     //return Ok();
