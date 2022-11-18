@@ -38,18 +38,7 @@ namespace ProjOfMec_API.Controllers
                     "Usuario ou senha já existentes, registre outro usuário e senha ou faça o login em: http://localhost:5277/api/home/login"
                 );
              
-          
-            /* Já está sendo validado nas rotas das regras
-             if(userRegister.IsMecanico == "true")
-             {
-                userRegister.role = UserRoles.Mecanico;
-             }
-
-             if(userRegister.IsMecanico == "false")
-             {
-                userRegister.role = UserRoles.Cliente;
-             } */
-
+        
         
             try
             {

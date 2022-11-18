@@ -101,24 +101,12 @@ namespace ProjOfMec_API.Controllers
                     return BadRequest();
                 }
 
-                /* Já está sendo validado nas rotas das regras
-                        if (result.IsMecanico == "true")
-                    {
-                        result.role = UserRoles.Mecanico;
-                    }
-    
-                    if (result.IsMecanico == "false")
-                    {
-                        result.role = UserRoles.Cliente;
-                    } */
-
           
             
 
                 result.username = dadosUsuarioAlt.username;
                 result.senha = dadosUsuarioAlt.senha;
                 result.role = dadosUsuarioAlt.role;
-                result.IsMecanico = dadosUsuarioAlt.IsMecanico;
                 result.email = dadosUsuarioAlt.email;
 
                 await _context.SaveChangesAsync();
